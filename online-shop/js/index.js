@@ -40,7 +40,7 @@ function render_categories_section(d){
                 </div>
                 <div class="flex-fill pl-3">
                   <h6>${product.name}</h6>
-                  <small class="text-body">100 Products</small>
+                  <small class="text-body">${product.productCount}</small>
                 </div>
               </div>
             </a>

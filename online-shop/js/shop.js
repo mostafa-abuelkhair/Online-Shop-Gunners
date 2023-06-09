@@ -53,6 +53,8 @@ function renderProducts(productsData) {
 }
 renderProducts(aaa);
 
+// SORTING
+
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
 const sortPopularity = document.getElementById("sort-Popularity");
@@ -77,12 +79,7 @@ const sortByRating = () => {
   });
   renderProducts(sorted);
 };
-if (sortPrice) {
-  sortPrice.addEventListener("click", sortByPrice);
-}
-if (sortPopularity) {
-  sortPopularity.addEventListener("click", sortByPopularity);
-}
-if (sortRating) {
-  sortRating.addEventListener("click", sortByRating);
-}
+
+sortPrice.addEventListener("click", sortByPrice);
+sortPopularity.addEventListener("click", sortByPopularity);
+sortRating.addEventListener("click", sortByRating);
