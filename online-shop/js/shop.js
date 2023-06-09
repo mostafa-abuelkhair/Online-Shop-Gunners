@@ -49,4 +49,13 @@ fetch("http://localhost:5000/api/products")
 const products = localStorage.getItem("products");
 const aaa = JSON.parse(products);
 console.log(aaa);
-// const sort
+
+const sortPrice = document.getElementById("sort-price");
+const sortByPrice = () => {
+  const sorted = aaa.sort((a, b) => {
+    return a.price - b.price;
+  });
+  console.log(sorted);
+};
+
+sortPrice.addEventListener("click", sortByPrice);
