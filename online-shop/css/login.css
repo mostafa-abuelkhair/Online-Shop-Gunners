@@ -1,0 +1,21 @@
+body {
+  background: #ffd333;
+}
+
+.container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+form {
+  background-color: #eee;
+  width: 40%;
+  padding: 3rem;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+form .bn {
+  text-align: center;
+}
