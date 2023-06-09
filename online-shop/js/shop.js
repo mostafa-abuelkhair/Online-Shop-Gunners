@@ -50,7 +50,11 @@ const products = localStorage.getItem("products");
 const aaa = JSON.parse(products);
 console.log(aaa);
 
+// SORTING
 const sortPrice = document.getElementById("sort-price");
+const sortRating = document.getElementById("sort-rating");
+const sortPopularity = document.getElementById("sort-Popularity");
+
 const sortByPrice = () => {
   const sorted = aaa.sort((a, b) => {
     return a.price - b.price;
@@ -58,4 +62,20 @@ const sortByPrice = () => {
   console.log(sorted);
 };
 
+const sortByPopularity = () => {
+  const sorted = aaa.sort((a, b) => {
+    return a.rating_count - b.rating_count;
+  });
+  console.log(sorted);
+};
+
+const sortByRating = () => {
+  const sorted = aaa.sort((a, b) => {
+    return a.rating - b.rating;
+  });
+  console.log(sorted);
+};
+
 sortPrice.addEventListener("click", sortByPrice);
+sortPopularity.addEventListener("click", sortByPopularity);
+sortRating.addEventListener("click", sortByRating);
