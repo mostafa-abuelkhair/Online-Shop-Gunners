@@ -2,8 +2,7 @@ fetch("http://localhost:5000/api/products")
   .then((res) => res.json())
   .then((body) => body.data)
   .then((data) => {
-    console.log(data);
-
+    localStorage.setItem("products", JSON.stringify(data));
     let productHTML = "";
     for (let i = 0; i < data.length; i++) {
       const product = data[i];
@@ -46,3 +45,8 @@ fetch("http://localhost:5000/api/products")
 
     document.getElementById("products").innerHTML = productHTML;
   });
+
+const products = localStorage.getItem("products");
+const aaa = JSON.parse(products);
+console.log(aaa);
+// const sort
