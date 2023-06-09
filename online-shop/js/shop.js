@@ -1,15 +1,17 @@
+
 fetch('http://localhost:5000/api/products')
   .then(res => res.json())
+  .then(body => body.data)
   .then(data => {
     console.log(data);
     let productHTML = '';
     for (let i = 0; i < data.length; i++) {
       const product = data[i];
-      productHTML = `
+      productHTML += `
         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
           <div class="product-item bg-light mb-4">
             <div class="product-img position-relative overflow-hidden">
-              <img class="img-fluid w-100" src="img/product-1.jpg" alt="${product.name}">
+              <img class="img-fluid w-100" src="${product.image}" alt="${product.name}">
               <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -28,13 +30,14 @@ fetch('http://localhost:5000/api/products')
                 <small class="fa fa-star text-primary mr-1"></small>
                 <small class="fa fa-star text-primary mr-1"></small>
                 <small class="fa fa-star text-primary mr-1"></small>
-                <small>(99)</small>
+                <small>(0)</small>
               </div>
             </div>
           </div>
         </div>
       `;
     }
+    console.log(productHTML);
 
-    document.getElementById("product").innerHTML = productHTML;
+    document.getElementById("products").innerHTML = productHTML;
   });
