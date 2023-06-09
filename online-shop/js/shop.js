@@ -33,7 +33,7 @@ function renderProducts(productsData) {
               <div class="d-flex align-items-center justify-content-center mt-2">
                 <h5>$${product.price}</h5>
                 <h6 class="text-muted ml-2"><del>$${
-                  product.price + product.discount * 0.1
+                  product.price + product.price * product.discount
                 }</del></h6>
               </div>
               <div class="d-flex align-items-center justify-content-center mb-1">
@@ -52,6 +52,8 @@ function renderProducts(productsData) {
   document.getElementById("products").innerHTML = productHTML;
 }
 renderProducts(aaa);
+
+// SORTING
 
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
@@ -77,12 +79,7 @@ const sortByRating = () => {
   });
   renderProducts(sorted);
 };
-if (sortPrice) {
-  sortPrice.addEventListener("click", sortByPrice);
-}
-if (sortPopularity) {
-  sortPopularity.addEventListener("click", sortByPopularity);
-}
-if (sortRating) {
-  sortRating.addEventListener("click", sortByRating);
-}
+
+sortPrice.addEventListener("click", sortByPrice);
+sortPopularity.addEventListener("click", sortByPopularity);
+sortRating.addEventListener("click", sortByRating);
