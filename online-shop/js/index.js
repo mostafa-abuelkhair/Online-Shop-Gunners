@@ -159,6 +159,7 @@ class productStorage {
 
   constructor(k){
     this.key=k;
+    this.setCounter();
   }
 
   store(p){
@@ -166,6 +167,13 @@ class productStorage {
     let arr = [...this.productSet];
     localStorage.setItem(this.key, JSON.stringify(arr));
     console.log(JSON.stringify(arr));
+
+    this.setCounter();
+  }
+
+  setCounter(){
+    let arr = JSON.parse(localStorage.getItem(this.key)) ;
+    document.getElementById(this.key+"-counter").innerHTML= arr.length;
   }
   
 }
