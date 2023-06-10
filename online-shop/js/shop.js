@@ -7,7 +7,6 @@ fetch("http://localhost:5000/api/products")
 const products = localStorage.getItem("products");
 console.log(typeof products);
 const aaa = JSON.parse(products);
-// console.log(aaa);
 
 function renderProducts(productsData) {
   let productHTML = "";
@@ -88,8 +87,6 @@ sortRating.addEventListener("click", sortByRating);
 //filter
 
 const arrProducts = JSON.parse(products);
-console.log(arrProducts);
-console.log(typeof arrProducts);
 
 const priceCheckboxes = {
   all: document.getElementById("price-all"),
@@ -153,7 +150,6 @@ function updateFilteredProducts() {
       selectedPriceRanges.push([400, 500]);
     }
   }
-  // console.log(selectedPriceRanges);
 
   // by color
   const selectedColors = [];
@@ -201,70 +197,33 @@ function updateFilteredProducts() {
     }
   }
 
-  // const filteredProducts3 = arrProducts.filter((product) => {
-  //   const color = product.color;
-  //   for (let i = 0; i < selectedColors.length; i++) {
-  //     if (color == selectedColors[i]) {
-  //       return true;
-  //     }
-  //   }
-  // });
-  // const filteredProducts2 = arrProducts.filter((product) => {
-  //   const size = product.size;
-  //   for (let i = 0; i < selectedSizes.length; i++) {
-  //     if (size == selectedSizes[i]) {
-  //       return true;
-  //     }
-  //   }
-  // });
+  const filteredProducts1 = arrProducts.filter((product) => {
+    const price = product.price;
 
-  if (
-    !(
-      (selectedColors.length = 0) &&
-      (selectedSizes.length = 0) &&
-      (selectedPriceRanges.length = 0)
-    )
-  ) {
-    const filteredProducts1 = arrProducts.filter((product) => {
-      const price = product.price;
+    for (let i = 0; i < selectedPriceRanges.length; i++) {
+      const lowerBound = selectedPriceRanges[i][0];
+      const upperBound = selectedPriceRanges[i][1];
+      if (price >= parseInt(lowerBound) && price <= parseInt(upperBound)) {
+        return true;
+      }
+    }
+  });
 
-      for (let i = 0; i < selectedPriceRanges.length; i++) {
-        const lowerBound = selectedPriceRanges[i][0];
-        const upperBound = selectedPriceRanges[i][1];
-        if (price >= parseInt(lowerBound) && price <= parseInt(upperBound)) {
-          return true;
-        }
+  const filteredProducts = [];
+
+  filteredProducts1.forEach((product) => {
+    selectedColors.forEach((color2) => {
+      const color = product.color;
+      if (color == color2) {
+        selectedSizes.forEach((size2) => {
+          const size = product.size;
+          if (size == size2) {
+            filteredProducts.push(product);
+          }
+        });
       }
     });
+  });
 
-    const filteredProducts = [];
-
-    filteredProducts1.forEach((product) => {
-      selectedColors.forEach((color2) => {
-        const color = product.color;
-        if (color == color2) {
-          selectedSizes.forEach((size2) => {
-            const size = product.size;
-            if (size == size2) {
-              filteredProducts.push(product);
-            }
-          });
-        }
-      });
-    });
-
-    // filteredProducts2.forEach((product) => {
-    //   if (!filteredProducts.includes(product)) {
-    //     filteredProducts.push(product);
-    //   }
-    // });
-
-    // filteredProducts3.forEach((product) => {
-    //   if (!filteredProducts.includes(product)) {
-    //     filteredProducts.push(product);
-    //   }
-    // });
-
-    renderProducts(filteredProducts);
-  }
+  renderProducts(filteredProducts);
 }
