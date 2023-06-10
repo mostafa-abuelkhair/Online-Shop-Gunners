@@ -5,8 +5,9 @@ fetch("http://localhost:5000/api/products")
     localStorage.setItem("products", JSON.stringify(data));
   });
 const products = localStorage.getItem("products");
+console.log(typeof products);
 const aaa = JSON.parse(products);
-console.log(aaa);
+// console.log(aaa);
 
 function renderProducts(productsData) {
   let productHTML = "";
@@ -42,7 +43,7 @@ function renderProducts(productsData) {
                 <small class="fa fa-star text-primary mr-1"></small>
                 <small class="fa fa-star text-primary mr-1"></small>
                 <small class="fa fa-star text-primary mr-1"></small>
-                <small>(99)</small>
+                <small>${product.rating_count}</small>
               </div>
             </div>
           </div>
@@ -83,3 +84,187 @@ const sortByRating = () => {
 sortPrice.addEventListener("click", sortByPrice);
 sortPopularity.addEventListener("click", sortByPopularity);
 sortRating.addEventListener("click", sortByRating);
+
+//filter
+
+const arrProducts = JSON.parse(products);
+console.log(arrProducts);
+console.log(typeof arrProducts);
+
+const priceCheckboxes = {
+  all: document.getElementById("price-all"),
+  range1: document.getElementById("price-1"),
+  range2: document.getElementById("price-2"),
+  range3: document.getElementById("price-3"),
+  range4: document.getElementById("price-4"),
+  range5: document.getElementById("price-5"),
+};
+
+for (let range in priceCheckboxes) {
+  priceCheckboxes[range].addEventListener("change", updateFilteredProducts);
+}
+
+const colorCheckboxes = {
+  all: document.getElementById("color-all"),
+  color1: document.getElementById("color-1"),
+  color2: document.getElementById("color-2"),
+  color3: document.getElementById("color-3"),
+  color4: document.getElementById("color-4"),
+  color5: document.getElementById("color-5"),
+};
+
+for (let color in colorCheckboxes) {
+  colorCheckboxes[color].addEventListener("change", updateFilteredProducts);
+}
+
+const sizeCheckboxes = {
+  all: document.getElementById("size-all"),
+  size1: document.getElementById("size-1"),
+  size2: document.getElementById("size-2"),
+  size3: document.getElementById("size-3"),
+  size4: document.getElementById("size-4"),
+  size5: document.getElementById("size-5"),
+};
+
+for (let size in sizeCheckboxes) {
+  sizeCheckboxes[size].addEventListener("change", updateFilteredProducts);
+}
+
+function updateFilteredProducts() {
+  // filter by price
+  let selectedPriceRanges = [];
+
+  if (priceCheckboxes.all.checked) {
+    selectedPriceRanges.push([0, 1000000000000]);
+  } else {
+    if (priceCheckboxes.range1.checked) {
+      selectedPriceRanges.push([0, 100]);
+    }
+    if (priceCheckboxes.range2.checked) {
+      selectedPriceRanges.push([100, 200]);
+    }
+    if (priceCheckboxes.range3.checked) {
+      selectedPriceRanges.push([200, 300]);
+    }
+    if (priceCheckboxes.range4.checked) {
+      selectedPriceRanges.push([300, 400]);
+    }
+    if (priceCheckboxes.range5.checked) {
+      selectedPriceRanges.push([400, 500]);
+    }
+  }
+  // console.log(selectedPriceRanges);
+
+  // by color
+  const selectedColors = [];
+
+  if (colorCheckboxes.all.checked) {
+    selectedColors.push("black", "white", "red", "green", "blue");
+  } else {
+    if (colorCheckboxes.color1.checked) {
+      selectedColors.push("black");
+    }
+    if (colorCheckboxes.color2.checked) {
+      selectedColors.push("white");
+    }
+    if (colorCheckboxes.color3.checked) {
+      selectedColors.push("red");
+    }
+    if (colorCheckboxes.color4.checked) {
+      selectedColors.push("blue");
+    }
+    if (colorCheckboxes.color5.checked) {
+      selectedColors.push("green");
+    }
+  }
+
+  //by size
+  const selectedSizes = [];
+
+  if (sizeCheckboxes.all.checked) {
+    selectedSizes.push("xs", "s", "m", "l", "xl");
+  } else {
+    if (sizeCheckboxes.size1.checked) {
+      selectedSizes.push("xs");
+    }
+    if (sizeCheckboxes.size2.checked) {
+      selectedSizes.push("s");
+    }
+    if (sizeCheckboxes.size3.checked) {
+      selectedSizes.push("m");
+    }
+    if (sizeCheckboxes.size4.checked) {
+      selectedSizes.push("l");
+    }
+    if (sizeCheckboxes.size5.checked) {
+      selectedSizes.push("xl");
+    }
+  }
+
+  // const filteredProducts3 = arrProducts.filter((product) => {
+  //   const color = product.color;
+  //   for (let i = 0; i < selectedColors.length; i++) {
+  //     if (color == selectedColors[i]) {
+  //       return true;
+  //     }
+  //   }
+  // });
+  // const filteredProducts2 = arrProducts.filter((product) => {
+  //   const size = product.size;
+  //   for (let i = 0; i < selectedSizes.length; i++) {
+  //     if (size == selectedSizes[i]) {
+  //       return true;
+  //     }
+  //   }
+  // });
+
+  if (
+    !(
+      (selectedColors.length = 0) &&
+      (selectedSizes.length = 0) &&
+      (selectedPriceRanges.length = 0)
+    )
+  ) {
+    const filteredProducts1 = arrProducts.filter((product) => {
+      const price = product.price;
+
+      for (let i = 0; i < selectedPriceRanges.length; i++) {
+        const lowerBound = selectedPriceRanges[i][0];
+        const upperBound = selectedPriceRanges[i][1];
+        if (price >= parseInt(lowerBound) && price <= parseInt(upperBound)) {
+          return true;
+        }
+      }
+    });
+
+    const filteredProducts = [];
+
+    filteredProducts1.forEach((product) => {
+      selectedColors.forEach((color2) => {
+        const color = product.color;
+        if (color == color2) {
+          selectedSizes.forEach((size2) => {
+            const size = product.size;
+            if (size == size2) {
+              filteredProducts.push(product);
+            }
+          });
+        }
+      });
+    });
+
+    // filteredProducts2.forEach((product) => {
+    //   if (!filteredProducts.includes(product)) {
+    //     filteredProducts.push(product);
+    //   }
+    // });
+
+    // filteredProducts3.forEach((product) => {
+    //   if (!filteredProducts.includes(product)) {
+    //     filteredProducts.push(product);
+    //   }
+    // });
+
+    renderProducts(filteredProducts);
+  }
+}
