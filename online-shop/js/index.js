@@ -1,41 +1,11 @@
 
-class getAndRender {
-
-  url;
-  data;
-
-  constructor(u,r){
-    this.url=u;
-  }
-
-  async get() {
-
-    try {
-        const response = await fetch(this.url);
-  
-        const result = await response.json();
-
-        this.data= result.data;
-
-        this.render(this.data);
-
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  render(d){
-
-  }
-
-}
-
+import {getAndRender,productStorage} from "./modules.js";
 
 let categories_menu = new getAndRender("http://localhost:5000/api/categories/");
 
 categories_menu.render= (d)=>{
   let htm=``;
-      for(product of d ){
+      for(let product of d ){
           htm+=`
           <a data-id="${product._id}" onclick="getCities(${product._id})" href="products.php?cat_id=${product._id}" class="nav-item nav-link">${product.name}</a>
           `;
@@ -53,7 +23,7 @@ categories_section.render=(d)=>{
   console.log(d);
   d.sort(function(a, b){return b.productCount - a.productCount});
   let htm=``;
-      for(product of d ){
+      for(let product of d ){
           htm+=`
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
           <a class="text-decoration-none" href="">
@@ -82,7 +52,7 @@ let featured_products = new getAndRender("http://localhost:5000/api/products/get
 featured_products.render= function(d){
 
   let htm=``;
-      for(product of d ){
+      for(let product of d ){
           htm+=`
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
           <div class="product-item bg-light mb-4">
@@ -92,10 +62,10 @@ featured_products.render= function(d){
                 <a
                   class="btn btn-outline-dark btn-square"
                   
-                  onclick="cart.store('${product._id}')"
+                  onclick="cart.add('${product._id}')"
                   ><i class="fa fa-shopping-cart"></i
                 ></a>
-                <a class="btn btn-outline-dark btn-square"  onclick="fav.store('${product._id}')"
+                <a class="btn btn-outline-dark btn-square"  onclick="fav.add('${product._id}')"
                   ><i class="far fa-heart"></i
                 ></a>
                 <a class="btn btn-outline-dark btn-square"  
@@ -151,33 +121,8 @@ recent_products.element= document.getElementById("recent-products");
 recent_products.get();
 
 
-
-class productStorage {
-
-  productSet = new Set();
-  key;
-
-  constructor(k){
-    this.key=k;
-    this.setCounter();
-  }
-
-  store(p){
-    this.productSet.add(p);
-    let arr = [...this.productSet];
-    localStorage.setItem(this.key, JSON.stringify(arr));
-    console.log(JSON.stringify(arr));
-
-    this.setCounter();
-  }
-
-  setCounter(){
-    let arr = JSON.parse(localStorage.getItem(this.key)) ;
-    document.getElementById(this.key+"-counter").innerHTML= arr.length;
-  }
-  
-}
-
 let cart = new productStorage("cart");
+window.cart = cart;
 let fav = new productStorage("fav");
+window.fav = fav;
 
