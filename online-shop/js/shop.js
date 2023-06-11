@@ -47,7 +47,6 @@ class Shop {
 
     this.aaa = JSON.parse(products);
     this.get();
-    this.eventListener();
   }
 
   get = async () => {
@@ -69,7 +68,6 @@ class Shop {
     for (let i = 0; i < productsData.length; i++) {
       const product = productsData[i];
       const ratingStars = this.Stars(product.rating);
-      // console.log(product);
       productHTML += `
         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
           <div class="product-item bg-light mb-4">
@@ -110,27 +108,6 @@ class Shop {
     document.getElementById("products").innerHTML = productHTML;
   };
 
-  sortByPrice = () => {
-    const sorted = this.aaa.sort((a, b) => {
-      return a.price - b.price;
-    });
-    this.renderProducts(sorted);
-  };
-
-  sortByPopularity = () => {
-    const sorted = this.aaa.sort((a, b) => {
-      return a.rating_count - b.rating_count;
-    });
-    this.renderProducts(sorted);
-  };
-
-  sortByRating = () => {
-    const sorted = this.aaa.sort((a, b) => {
-      return a.rating - b.rating;
-    });
-    this.renderProducts(sorted);
-  };
-
   addToCart = (product) => {
     const cart = document.getElementById("btn-cart");
 
@@ -159,12 +136,6 @@ class Shop {
     console.log(this.lovedItems);
   };
 
-  eventListener = () => {
-    sortPrice.addEventListener("click", this.sortByPrice);
-    sortPopularity.addEventListener("click", this.sortByPopularity);
-    sortRating.addEventListener("click", this.sortByRating);
-  };
-
   Stars = (rating) => {
     let starsHTML = "";
     for (let i = 0; i < rating; i++) {
@@ -184,8 +155,10 @@ class Filter extends Shop {
   priceCheckboxes;
   colorCheckboxes;
   sizeCheckboxes;
+  filteredProducts;
   constructor() {
     super();
+    this.filteredProducts = [];
     this.priceCheckboxes = {
       all: document.getElementById("price-all"),
       range1: document.getElementById("price-1"),
@@ -210,10 +183,75 @@ class Filter extends Shop {
       size4: document.getElementById("size-4"),
       size5: document.getElementById("size-5"),
     };
-    this.eventListener();
+    this.eventListenerSort();
+    this.eventListenerFilter();
   }
 
-  eventListener = () => {
+  sortByPrice = (x) => {
+    const sorted = x.sort((a, b) => {
+      return a.price - b.price;
+    });
+
+    if (
+      typeof this.filteredProducts !== "undefined" &&
+      this.filteredProducts.length === 0
+    ) {
+      this.aaa.sort((a, b) => {
+        return a.price - b.price;
+      });
+      this.renderProducts(this.aaa);
+    } else {
+      this.renderProducts(sorted);
+    }
+  };
+
+  sortByPopularity = (x) => {
+    const sorted = x.sort((a, b) => {
+      return a.rating_count - b.rating_count;
+    });
+    if (
+      typeof this.filteredProducts !== "undefined" &&
+      this.filteredProducts.length === 0
+    ) {
+      this.aaa.sort((a, b) => {
+        return a.rating_count - b.rating_count;
+      });
+      this.renderProducts(this.aaa);
+    } else {
+      this.renderProducts(sorted);
+    }
+  };
+
+  sortByRating = (x) => {
+    const sorted = x.sort((a, b) => {
+      return a.rating - b.rating;
+    });
+    if (
+      typeof this.filteredProducts !== "undefined" &&
+      this.filteredProducts.length === 0
+    ) {
+      this.aaa.sort((a, b) => {
+        return a.rating - b.rating;
+      });
+      this.renderProducts(this.aaa);
+    } else {
+      this.renderProducts(sorted);
+    }
+  };
+
+  eventListenerSort = () => {
+    sortPrice.addEventListener("click", () =>
+      this.sortByPrice(this.filteredProducts)
+    );
+    sortPopularity.addEventListener("click", () =>
+      this.sortByPopularity(this.filteredProducts)
+    );
+    sortRating.addEventListener("click", () =>
+      this.sortByRating(this.filteredProducts)
+    );
+  };
+
+  eventListenerFilter = () => {
     for (let range in this.priceCheckboxes) {
       this.priceCheckboxes[range].addEventListener(
         "change",
@@ -318,7 +356,7 @@ class Filter extends Shop {
       }
     });
 
-    const filteredProducts = [];
+    this.filteredProducts = [];
 
     filteredProducts1.forEach((product) => {
       selectedColors.forEach((color2) => {
@@ -327,14 +365,22 @@ class Filter extends Shop {
           selectedSizes.forEach((size2) => {
             const size = product.size;
             if (size == size2) {
-              filteredProducts.push(product);
+              this.filteredProducts.push(product);
             }
           });
         }
       });
     });
+    if (
+      typeof this.filteredProducts !== "undefined" &&
+      this.filteredProducts.length === 0
+    ) {
+      alert("nothing like that");
 
-    this.renderProducts(filteredProducts);
+      this.renderProducts(this.aaa);
+    } else {
+      this.renderProducts(this.filteredProducts);
+    }
   };
 }
 

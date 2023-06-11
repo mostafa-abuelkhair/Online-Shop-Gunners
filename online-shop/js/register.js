@@ -1,34 +1,50 @@
 const reg = document.getElementById("register");
 
-async function register() {
-  const first_name = document.getElementById("fname").value;
-  const last_name = document.getElementById("lname").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const user = {
-    first_name: first_name,
-    last_name: last_name,
-    email: email,
-    password: password,
+class Register {
+  first_name;
+  last_name;
+  email;
+  password;
+  user;
+  constructor() {
+    this.user = {};
+  }
+
+  validation = () => {
+    this.first_name = document.getElementById("fname").value;
+    this.last_name = document.getElementById("lname").value;
+    this.email = document.getElementById("email").value;
+    this.password = document.getElementById("password").value;
+
+    this.user = {
+      first_name: this.first_name,
+      last_name: this.last_name,
+      email: this.email,
+      password: this.password,
+    };
+    console.log(this.first_name);
+    if (
+      this.first_name.trim() == "" ||
+      this.last_name.trim() == "" ||
+      this.email.trim() == "" ||
+      this.password == ""
+    ) {
+      alert("invalid Data");
+    } else {
+      this.get();
+    }
   };
 
-  if (
-    first_name.trim() == "" ||
-    last_name.trim() == "" ||
-    email.trim() == "" ||
-    password == ""
-  ) {
-    alert("invalid Data");
-  } else {
+  async get() {
+    console.log(this.user);
     try {
       const response = await fetch("http://localhost:5000/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(this.user),
       });
-
       if (response.statusText === "Conflict") {
         alert("DUBLICATED EMAIL");
       } else {
@@ -36,10 +52,14 @@ async function register() {
         console.log(data);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error:", error);
     }
   }
-  // console.log(localStorage.getItem("token"));
+
+  eventListener = () => {
+    reg.addEventListener("click", this.validation);
+  };
 }
 
-reg.addEventListener("click", register);
+const register = new Register();
+register.eventListener();
