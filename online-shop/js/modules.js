@@ -57,8 +57,10 @@ class getAndRender {
     getCounter(){
       let arr =[];
       try {
-        arr = JSON.parse(localStorage.getItem(this.key));
-        this.productSet=new Set(arr);
+        if ( !(localStorage.getItem(this.key) === null) ) {
+          arr = JSON.parse(localStorage.getItem(this.key));
+          this.productSet=new Set(arr);
+        }
       }
       catch{
         console.log("empty cart");
