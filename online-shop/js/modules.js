@@ -55,9 +55,14 @@ class getAndRender {
     }
   
     getCounter(){
-      let arr = JSON.parse(localStorage.getItem(this.key));
-      if(!arr){arr=[]}
-      this.productSet=new Set(arr);
+      let arr =[];
+      try {
+        arr = JSON.parse(localStorage.getItem(this.key));
+        this.productSet=new Set(arr);
+      }
+      catch{
+        console.log("empty cart");
+      }
       document.getElementById(this.key+"-counter").innerHTML= arr.length;
     }
 
