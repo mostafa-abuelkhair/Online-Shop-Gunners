@@ -68,6 +68,7 @@ class Shop {
     let productHTML = "";
     for (let i = 0; i < productsData.length; i++) {
       const product = productsData[i];
+      const ratingStars = this.Stars(product.rating);
       // console.log(product);
       productHTML += `
         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
@@ -98,11 +99,7 @@ class Shop {
                 }</del></h6>
               </div>
               <div class="d-flex align-items-center justify-content-center mb-1">
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
+                ${ratingStars}
                 <small>${product.rating_count}</small>
               </div>
             </div>
@@ -166,6 +163,17 @@ class Shop {
     sortPrice.addEventListener("click", this.sortByPrice);
     sortPopularity.addEventListener("click", this.sortByPopularity);
     sortRating.addEventListener("click", this.sortByRating);
+  };
+
+  Stars = (rating) => {
+    let starsHTML = "";
+    for (let i = 0; i < rating; i++) {
+      starsHTML += `<small class="fa fa-star text-primary mr-1"></small>`;
+    }
+    // for (let i = rating; i < 5; i++) {
+    //   starsHTML += `<small class="fa fa-star text-muted mr-1"></small>`;
+    // }
+    return starsHTML;
   };
 }
 const shop = new Shop();
