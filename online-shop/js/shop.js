@@ -1,17 +1,50 @@
+class categories {
+  constructor() {}
+}
+
+fetch("http://localhost:5000/api/categories/")
+  .then((res) => res.json())
+  .then((body) => body.data)
+  .then((data) => {
+    localStorage.setItem("categories", JSON.stringify(data));
+  });
+
+// console.log(localStorage.getItem("categories"));
+
+const categories = localStorage.getItem("categories");
+
+const cat = JSON.parse(categories);
+
+function renderCategories(categoriesData) {
+  let cathtml = ``;
+  for (let i = 0; i < categoriesData.length; i++) {
+    const category = categoriesData[i];
+
+    cathtml += `
+            <a href="" class="nav-item nav-link">${category.name}</a>
+            `;
+  }
+  document.getElementById("cat-menu").innerHTML = cathtml;
+}
+
+renderCategories(cat);
+
 fetch("http://localhost:5000/api/products")
   .then((res) => res.json())
   .then((body) => body.data)
   .then((data) => {
     localStorage.setItem("products", JSON.stringify(data));
   });
-const products = localStorage.getItem("products");
-console.log(typeof products);
-const aaa = JSON.parse(products);
 
-function renderProducts(productsData) {
+const products = localStorage.getItem("products");
+const aaa = JSON.parse(products);
+const cartItems = [];
+
+const renderProducts = (productsData) => {
   let productHTML = "";
   for (let i = 0; i < productsData.length; i++) {
     const product = productsData[i];
+    // console.log(product);
     productHTML += `
         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
           <div class="product-item bg-light mb-4">
@@ -20,8 +53,12 @@ function renderProducts(productsData) {
       product.name
     }">
               <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="addToCart('${
+                  product._id
+                }')"><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark btn-square" id="btn-love" onclick="addToLove('${
+                  product._id
+                }')"><i class="far fa-heart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
               </div>
@@ -50,8 +87,38 @@ function renderProducts(productsData) {
       `;
   }
   document.getElementById("products").innerHTML = productHTML;
-}
+};
 renderProducts(aaa);
+
+const addToCart = (product) => {
+  const cart = document.getElementById("btn-cart");
+
+  if (!cartItems.includes(product)) {
+    cartItems.push(product);
+    cart.classList.add("bbb");
+  } else if (cartItems.includes(product)) {
+    cartItems.splice(cartItems.indexOf(product), 1);
+    cart.classList.remove("bbb");
+  }
+  document.getElementById("shoped-count").innerHTML = cartItems.length;
+  console.log(cartItems);
+};
+
+const lovedItems = [];
+
+const addToLove = (product) => {
+  const love = document.getElementById("btn-love");
+  if (!lovedItems.includes(product)) {
+    lovedItems.push(product);
+    love.classList.add("bbb");
+  } else if (lovedItems.includes(product)) {
+    lovedItems.splice(lovedItems.indexOf(product), 1);
+    love.classList.remove("bbb");
+  }
+  document.getElementById("love-count").innerHTML = lovedItems.length;
+
+  console.log(lovedItems);
+};
 
 // SORTING
 
@@ -87,6 +154,8 @@ sortRating.addEventListener("click", sortByRating);
 //filter
 
 const arrProducts = JSON.parse(products);
+// console.log(arrProducts);
+// console.log(typeof arrProducts);
 
 const priceCheckboxes = {
   all: document.getElementById("price-all"),
