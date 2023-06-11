@@ -1,5 +1,11 @@
-class categories {
-  constructor() {}
+const sortPrice = document.getElementById("sort-price");
+const sortRating = document.getElementById("sort-rating");
+const sortPopularity = document.getElementById("sort-Popularity");
+
+class Categories {
+  constructor() {
+    this.get();
+  }
 
   get = async () => {
     try {
@@ -9,7 +15,6 @@ class categories {
 
       const data = result.data;
       localStorage.setItem("categories", JSON.stringify(data));
-      console.log(data);
       this.renderCategories(data);
     } catch (error) {
       console.error("Error:", error);
@@ -29,41 +34,7 @@ class categories {
   };
 }
 
-const asas = new categories();
-
-asas.get();
-
-// fetch("http://localhost:5000/api/categories/")
-//   .then((res) => res.json())
-//   .then((body) => body.data)
-//   .then((data) => {
-//     localStorage.setItem("categories", JSON.stringify(data));
-//   });
-
-// // console.log(localStorage.getItem("categories"));
-
-// const categories = localStorage.getItem("categories");
-
-// const cat = JSON.parse(categories);
-
-// function renderCategories(categoriesData) {
-//   let cathtml = ``;
-//   for (let i = 0; i < categoriesData.length; i++) {
-//     const category = categoriesData[i];
-
-//     cathtml += `
-//             <a href="" class="nav-item nav-link">${category.name}</a>
-//             `;
-//   }
-//   document.getElementById("cat-menu").innerHTML = cathtml;
-// }
-
-// renderCategories(cat);
-const sortPrice = document.getElementById("sort-price");
-const sortRating = document.getElementById("sort-rating");
-const sortPopularity = document.getElementById("sort-Popularity");
-// products = localStorage.getItem("products");
-// aaa = JSON.parse(products);
+const categories = new Categories();
 
 class Shop {
   aaa;
@@ -75,6 +46,8 @@ class Shop {
     this.cartItems = [];
 
     this.aaa = JSON.parse(products);
+    this.get();
+    this.eventListener();
   }
 
   get = async () => {
@@ -188,122 +161,14 @@ class Shop {
 
     console.log(this.lovedItems);
   };
+
+  eventListener = () => {
+    sortPrice.addEventListener("click", this.sortByPrice);
+    sortPopularity.addEventListener("click", this.sortByPopularity);
+    sortRating.addEventListener("click", this.sortByRating);
+  };
 }
 const shop = new Shop();
-shop.get();
-
-// fetch("http://localhost:5000/api/products")
-//   .then((res) => res.json())
-//   .then((body) => body.data)
-//   .then((data) => {
-//     localStorage.setItem("products", JSON.stringify(data));
-//   });
-
-// const renderProducts = (productsData) => {
-//   let productHTML = "";
-//   for (let i = 0; i < productsData.length; i++) {
-//     const product = productsData[i];
-//     // console.log(product);
-//     productHTML += `
-//         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-//           <div class="product-item bg-light mb-4">
-//             <div class="product-img position-relative overflow-hidden">
-//               <img class="img-fluid w-100" src="${product.image}" alt="${
-//       product.name
-//     }">
-//               <div class="product-action">
-//                 <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="addToCart('${
-//                   product._id
-//                 }')"><i class="fa fa-shopping-cart"></i></a>
-//                 <a class="btn btn-outline-dark btn-square" id="btn-love" onclick="addToLove('${
-//                   product._id
-//                 }')"><i class="far fa-heart"></i></a>
-//                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-//                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-//               </div>
-//             </div>
-//             <div class="text-center py-4">
-//               <a class="h6 text-decoration-none text-truncate" href="">${
-//                 product.name
-//               }</a>
-//               <div class="d-flex align-items-center justify-content-center mt-2">
-//                 <h5>$${product.price}</h5>
-//                 <h6 class="text-muted ml-2"><del>$${
-//                   product.price + product.price * product.discount
-//                 }</del></h6>
-//               </div>
-//               <div class="d-flex align-items-center justify-content-center mb-1">
-//                 <small class="fa fa-star text-primary mr-1"></small>
-//                 <small class="fa fa-star text-primary mr-1"></small>
-//                 <small class="fa fa-star text-primary mr-1"></small>
-//                 <small class="fa fa-star text-primary mr-1"></small>
-//                 <small class="fa fa-star text-primary mr-1"></small>
-//                 <small>${product.rating_count}</small>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       `;
-//   }
-//   document.getElementById("products").innerHTML = productHTML;
-// const addToCart = (product) => {
-//   const cart = document.getElementById("btn-cart");
-
-//   if (!cartItems.includes(product)) {
-//     cartItems.push(product);
-//     cart.classList.add("bbb");
-//   } else if (cartItems.includes(product)) {
-//     cartItems.splice(cartItems.indexOf(product), 1);
-//     cart.classList.remove("bbb");
-//   }
-//   document.getElementById("shoped-count").innerHTML = cartItems.length;
-//   console.log(cartItems);
-// };
-
-// const lovedItems = [];
-
-// const addToLove = (product) => {
-//   const love = document.getElementById("btn-love");
-//   if (!lovedItems.includes(product)) {
-//     lovedItems.push(product);
-//     love.classList.add("bbb");
-//   } else if (lovedItems.includes(product)) {
-//     lovedItems.splice(lovedItems.indexOf(product), 1);
-//     love.classList.remove("bbb");
-//   }
-//   document.getElementById("love-count").innerHTML = lovedItems.length;
-
-//   console.log(lovedItems);
-// };
-// };
-// renderProducts(aaa);
-
-// SORTING
-
-// const sortByPrice = () => {
-//   const sorted = aaa.sort((a, b) => {
-//     return a.price - b.price;
-//   });
-//   renderProducts(sorted);
-// };
-
-// const sortByPopularity = () => {
-//   const sorted = aaa.sort((a, b) => {
-//     return a.rating_count - b.rating_count;
-//   });
-//   renderProducts(sorted);
-// };
-
-// const sortByRating = () => {
-//   const sorted = aaa.sort((a, b) => {
-//     return a.rating - b.rating;
-//   });
-//   renderProducts(sorted);
-// };
-
-sortPrice.addEventListener("click", shop.sortByPrice);
-sortPopularity.addEventListener("click", shop.sortByPopularity);
-sortRating.addEventListener("click", shop.sortByRating);
 
 //filter
 
@@ -466,6 +331,3 @@ class Filter extends Shop {
 }
 
 const filter = new Filter();
-
-// console.log(arrProducts);
-// console.log(typeof arrProducts);
