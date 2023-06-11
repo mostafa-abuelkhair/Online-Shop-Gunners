@@ -1,33 +1,64 @@
 class categories {
   constructor() {}
-}
 
-fetch("http://localhost:5000/api/categories/")
-  .then((res) => res.json())
-  .then((body) => body.data)
-  .then((data) => {
-    localStorage.setItem("categories", JSON.stringify(data));
-  });
+  get = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/categories/");
 
-// console.log(localStorage.getItem("categories"));
+      const result = await response.json();
 
-const categories = localStorage.getItem("categories");
+      const data = result.data;
+      localStorage.setItem("categories", JSON.stringify(data));
+      console.log(data);
+      this.renderCategories(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-const cat = JSON.parse(categories);
+  renderCategories = (categoriesData) => {
+    let cathtml = ``;
+    for (let i = 0; i < categoriesData.length; i++) {
+      const category = categoriesData[i];
 
-function renderCategories(categoriesData) {
-  let cathtml = ``;
-  for (let i = 0; i < categoriesData.length; i++) {
-    const category = categoriesData[i];
-
-    cathtml += `
+      cathtml += `
             <a href="" class="nav-item nav-link">${category.name}</a>
             `;
-  }
-  document.getElementById("cat-menu").innerHTML = cathtml;
+    }
+    document.getElementById("cat-menu").innerHTML = cathtml;
+  };
 }
 
-renderCategories(cat);
+const asas = new categories();
+
+asas.get();
+
+// fetch("http://localhost:5000/api/categories/")
+//   .then((res) => res.json())
+//   .then((body) => body.data)
+//   .then((data) => {
+//     localStorage.setItem("categories", JSON.stringify(data));
+//   });
+
+// // console.log(localStorage.getItem("categories"));
+
+// const categories = localStorage.getItem("categories");
+
+// const cat = JSON.parse(categories);
+
+// function renderCategories(categoriesData) {
+//   let cathtml = ``;
+//   for (let i = 0; i < categoriesData.length; i++) {
+//     const category = categoriesData[i];
+
+//     cathtml += `
+//             <a href="" class="nav-item nav-link">${category.name}</a>
+//             `;
+//   }
+//   document.getElementById("cat-menu").innerHTML = cathtml;
+// }
+
+// renderCategories(cat);
 
 fetch("http://localhost:5000/api/products")
   .then((res) => res.json())
