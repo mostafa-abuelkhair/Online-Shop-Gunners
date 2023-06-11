@@ -23,6 +23,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/shop.css">
 </head>
 
 <body>
@@ -75,15 +76,8 @@
                                 <a href="" class="dropdown-item">Baby's Dresses</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                        <div id="cat-menu"></div>
+
                     </div>
                 </nav>
             </div>
@@ -120,6 +114,7 @@
                       <a href="" class="btn px-0">
                         <i class="fas fa-heart text-primary"></i>
                         <span
+                        id="love-count"
                           class="badge text-secondary border border-secondary rounded-circle"
                           style="padding-bottom: 2px"
                           >0</span
@@ -128,6 +123,7 @@
                       <a href="" class="btn px-0 ml-3">
                         <i class="fas fa-shopping-cart text-primary"></i>
                         <span
+                        id="shoped-count"
                           class="badge text-secondary border border-secondary rounded-circle"
                           style="padding-bottom: 2px"
                           >0</span
@@ -200,7 +196,7 @@
                     <form>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" checked id="color-all">
-                            <label class="custom-control-label" for="price-all">All Color</label>
+                            <label class="custom-control-label" for="color-all">All Color</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                             <input type="checkbox" class="custom-control-input" id="color-1">
@@ -234,7 +230,7 @@
                             <input type="checkbox" class="custom-control-input" checked id="size-all">
                             <label class="custom-control-label" for="size-all">All Size</label>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
                             <input type="checkbox" class="custom-control-input" id="size-1">
                             <label class="custom-control-label" for="size-1">XS</label>
                         </div>
