@@ -4,6 +4,7 @@ import {getAndRender,productStorage} from "./modules.js";
 class cart_productStorage extends productStorage{
 
   products_arr=[];
+  subTotal = 0;
 
   removeAndRender(p){
     this.remove(p);
@@ -67,7 +68,7 @@ class cart_productStorage extends productStorage{
             </div>
           </div>
         </td>
-        <td class="align-middle">$${product.quantity*(product.price-(product.price*product.discount))}</td>
+        <td class="align-middle">$${(product.quantity*(product.price-(product.price*product.discount))).toFixed(2)}</td>
         <td class="align-middle">
           <button class="btn btn-sm btn-danger" type="button" onclick="cart.removeAndRender('${product._id}')">
             <i class="fa fa-times"></i>
@@ -78,9 +79,20 @@ class cart_productStorage extends productStorage{
     }
   document.getElementById("products").innerHTML=htm;
 
-  let total= this.products_arr.reduce( (t,p)=>{return t+p.quantity*(p.price-(p.price*p.discount))},0 );
-  document.getElementById("sub-total").innerHTML = "$"+total;
+  this.subTotal= this.products_arr.reduce( (t,p)=>{return t+p.quantity*(p.price-(p.price*p.discount))},0 ).toFixed(2);
+  document.getElementById("sub-total").innerHTML = "$"+this.subTotal;
   
+  }
+
+  order(){
+
+    let order_details = this.products_arr.map( (p)=> { return {_id:p._id, quantity:p.quantity, price:p.price-(p.price*p.discount)} } )
+
+    localStorage.setItem("order_details", JSON.stringify(order_details));
+
+    localStorage.setItem("order_subTotal", this.subTotal);
+
+    window.location.href = 'checkout.html';
   }
 
 
@@ -99,8 +111,24 @@ let cart_products = new getAndRender("http://localhost:5000/api/products/");
 cart_products.render= function(d){
 
   cart.products_arr = d.filter(p=>cart.productSet.has(p._id));
-  cart.products_arr.forEach((e)=>{e.quantity=0});
+  cart.products_arr.forEach((e)=>{e.quantity=1});
   cart.render();
 }
 
 cart_products.get();
+
+
+
+let categories_menu = new getAndRender("http://localhost:5000/api/categories/");
+
+categories_menu.render= (d)=>{
+  let htm=``;
+      for(let product of d ){
+          htm+=`
+          <a data-id="${product._id}" onclick="getCities(${product._id})" href="products.php?cat_id=${product._id}" class="nav-item nav-link">${product.name}</a>
+          `;
+      }
+  document.getElementById("categories-menu").innerHTML=htm;
+}
+
+categories_menu.get();
