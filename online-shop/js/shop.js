@@ -1,3 +1,12 @@
+
+import {getAndRender,productStorage} from "./modules.js";
+
+let cart = new productStorage("cart");
+window.cart = cart;
+
+let fav = new productStorage("fav");
+window.fav = fav;
+
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
 const sortPopularity = document.getElementById("sort-Popularity");
@@ -63,6 +72,8 @@ class Shop {
     }
   };
 
+
+
   renderProducts = (productsData) => {
     let productHTML = "";
     for (let i = 0; i < productsData.length; i++) {
@@ -76,10 +87,10 @@ class Shop {
         product.name
       }">
               <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="shop.addToCart('${
+                <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="cart.add('${
                   product._id
                 }')"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" id="btn-love" onclick="shop.addToLove('${
+                <a class="btn btn-outline-dark btn-square" id="btn-love" onclick="fav.add('${
                   product._id
                 }')"><i class="far fa-heart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
@@ -137,17 +148,17 @@ class Shop {
   };
 
   Stars = (rating) => {
-    let starsHTML = "";
-    for (let i = 0; i < rating; i++) {
-      starsHTML += `<small class="fa fa-star text-primary mr-1"></small>`;
+    let r = "";
+    for (let i=1;i<=5;i++){
+      r+=`
+        <small class="fa${(rating-i >=-0.6)? '':'r'} fa-star${(i-rating==0.5)?'-half-alt':''} text-primary mr-1"></small>
+      `
     }
-    // for (let i = rating; i < 5; i++) {
-    //   starsHTML += `<small class="fa fa-star text-muted mr-1"></small>`;
-    // }
-    return starsHTML;
+    return r
   };
 }
 const shop = new Shop();
+window.shop=shop;
 
 //filter
 
