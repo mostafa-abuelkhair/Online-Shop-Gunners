@@ -46,9 +46,12 @@ class Register {
         body: JSON.stringify(this.user),
       });
       if (response.statusText === "Conflict") {
-        alert("DUBLICATED EMAIL");
+        alert("DUPLICATED EMAIL");
+        
       } else {
         const data = await response.json();
+        window.location.href = "index.html"
+
         console.log(data);
       }
     } catch (error) {

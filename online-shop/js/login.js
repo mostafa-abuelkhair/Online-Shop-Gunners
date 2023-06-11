@@ -34,12 +34,15 @@ class Login {
         },
         body: JSON.stringify(this.user),
       });
-
-      const data = await response.json();
-      console.log(data);
-      localStorage.setItem("token", data.token);
-
-      console.log(`Welcome ${data.first_name} ${data.last_name}`);
+      if (response.ok) { 
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem("token", data.token);
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid email or password"); // show an alert message
+        console.log(`Login failed: ${data.message}`);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
