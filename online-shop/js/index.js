@@ -126,3 +126,9 @@ window.cart = cart;
 let fav = new productStorage("fav");
 window.fav = fav;
 
+let token = localStorage.getItem("token");
+if(token){
+let name = localStorage.getItem("name");
+document.getElementById("sign").innerHTML=name;
+
+}

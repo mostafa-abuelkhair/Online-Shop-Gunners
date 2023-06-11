@@ -38,6 +38,7 @@ class Login {
         const data = await response.json();
         console.log(data);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.first_name+" "+data.last_name);
         window.location.href = "index.html";
       } else {
         alert("Invalid email or password"); // show an alert message

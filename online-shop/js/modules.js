@@ -56,6 +56,7 @@ class getAndRender {
   
     getCounter(){
       let arr = JSON.parse(localStorage.getItem(this.key));
+      if(arr){arr=[]}
       this.productSet=new Set(arr);
       document.getElementById(this.key+"-counter").innerHTML= arr.length;
     }
