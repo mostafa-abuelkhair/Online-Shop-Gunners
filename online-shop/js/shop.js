@@ -92,9 +92,6 @@ class Shop {
                 }')"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square heart" id="btn-love" onclick="fav.add('${
                   product._id
-                }')   ;
-                shop.addToLove('${
-                  product._id
                 }')"><i class="far fa-heart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
@@ -135,20 +132,6 @@ class Shop {
       cards.forEach((card) => {
         card.className = "col-lg-4 col-md-6 col-sm-6 pb-1";
       });
-    });
-  };
-
-  addToLove = (id) => {
-    let loves = document.querySelectorAll(
-      ".btn.btn-outline-dark.btn-square.heart"
-    );
-    loves.forEach((love) => {
-      if (fav.productSet.has(id)) {
-        love.classList.remove("bbb");
-      } else {
-        love.classList.add("bbb");
-      }
-      console.log(id);
     });
   };
 
