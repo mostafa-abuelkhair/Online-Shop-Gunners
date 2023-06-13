@@ -1,6 +1,13 @@
 
 import {getAndRender,productStorage} from "./modules.js";
 
+
+let cart = new productStorage("cart");
+window.cart = cart;
+
+let fav = new productStorage("fav");
+window.fav = fav;
+
 let categories_menu = new getAndRender("http://localhost:5000/api/categories/");
 
 categories_menu.render= (d)=>{
@@ -120,14 +127,23 @@ recent_products.element= document.getElementById("recent-products");
 recent_products.get();
 
 
-let cart = new productStorage("cart");
-window.cart = cart;
-let fav = new productStorage("fav");
-window.fav = fav;
 
 let token = localStorage.getItem("token");
 if(token){
-let name = localStorage.getItem("name");
-document.getElementById("sign").innerHTML=name;
+  let name = localStorage.getItem("name");
+  document.getElementById("sign").innerHTML = `${name}`;
 
-}
+  document.getElementById("signout-btn").innerHTML =`
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
+    document.getElementById("signin").setAttribute("href", "#");
+
+};
+
+const signout = function() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+  // console.log("token")
+};
+document.getElementById("signout-btn").addEventListener("click", signout);
+
+

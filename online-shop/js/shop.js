@@ -1,5 +1,4 @@
-
-import {getAndRender,productStorage} from "./modules.js";
+import { getAndRender, productStorage } from "./modules.js";
 
 let cart = new productStorage("cart");
 window.cart = cart;
@@ -7,9 +6,13 @@ window.cart = cart;
 let fav = new productStorage("fav");
 window.fav = fav;
 
+
+
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
 const sortPopularity = document.getElementById("sort-Popularity");
+const barStyle = document.getElementById("style-bar");
+const blockStyle = document.getElementById("style-block");
 
 class Categories {
   constructor() {
@@ -56,6 +59,7 @@ class Shop {
 
     this.aaa = JSON.parse(products);
     this.get();
+    this.layout;
   }
 
   get = async () => {
@@ -71,8 +75,6 @@ class Shop {
       console.error("Error:", error);
     }
   };
-
-
 
   renderProducts = (productsData) => {
     let productHTML = "";
@@ -116,49 +118,42 @@ class Shop {
         </div>
       `;
     }
-    document.getElementById("products").innerHTML = productHTML;
+    const layout = document.getElementById("products");
+    layout.innerHTML = productHTML;
+
+    barStyle.addEventListener("click", () => {
+      console.log("aaaa");
+      layout.classList.remove("row");
+      layout.classList.add("layout");
+    });
+
+    blockStyle.addEventListener("click", () => {
+      layout.classList.add("row");
+    });
   };
 
-  addToCart = (product) => {
-    const cart = document.getElementById("btn-cart");
-
-    if (!this.cartItems.includes(product)) {
-      this.cartItems.push(product);
-      cart.classList.add("bbb");
-    } else if (this.cartItems.includes(product)) {
-      this.cartItems.splice(this.cartItems.indexOf(product), 1);
-      cart.classList.remove("bbb");
-    }
-    document.getElementById("shoped-count").innerHTML = this.cartItems.length;
-    console.log(this.cartItems);
+  viewLayout = (k) => {
+    barStyle.addEventListener("click", () => {
+      k.className = "row";
+    });
   };
 
-  addToLove = (product) => {
-    const love = document.getElementById("btn-love");
-    if (!this.lovedItems.includes(product)) {
-      this.lovedItems.push(product);
-      love.classList.add("bbb");
-    } else if (this.lovedItems.includes(product)) {
-      this.lovedItems.splice(this.lovedItems.indexOf(product), 1);
-      love.classList.remove("bbb");
-    }
-    document.getElementById("love-count").innerHTML = this.lovedItems.length;
 
-    console.log(this.lovedItems);
-  };
 
   Stars = (rating) => {
     let r = "";
-    for (let i=1;i<=5;i++){
-      r+=`
-        <small class="fa${(rating-i >=-0.6)? '':'r'} fa-star${(i-rating==0.5)?'-half-alt':''} text-primary mr-1"></small>
-      `
+    for (let i = 1; i <= 5; i++) {
+      r += `
+        <small class="fa${rating - i >= -0.6 ? "" : "r"} fa-star${
+        i - rating == 0.5 ? "-half-alt" : ""
+      } text-primary mr-1"></small>
+      `;
     }
-    return r
+    return r;
   };
 }
 const shop = new Shop();
-window.shop=shop;
+window.shop = shop;
 
 //filter
 
@@ -396,3 +391,24 @@ class Filter extends Shop {
 }
 
 const filter = new Filter();
+
+let token = localStorage.getItem("token");
+if (token) {
+  let name = localStorage.getItem("name");
+  document.getElementById("sign").innerHTML = `${name}`;
+
+  document.getElementById("signout-btn").innerHTML = `
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `;
+  document.getElementById("signin").setAttribute("href", "#");
+
+
+  let fav = new productStorage("fav");
+  window.fav = fav;
+};
+
+const signout = function () {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+  // console.log("token")
+};
+document.getElementById("signout-btn").addEventListener("click", signout);
