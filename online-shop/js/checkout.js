@@ -12,7 +12,7 @@ class Order {
     first_name:'',
     last_name:'',
     email:'',
-    mobile:'',
+    mobile_number:'',
     address1:'',
     address2:'',
     country:'Egypt',
@@ -24,9 +24,10 @@ class Order {
     valid=true;
     order_details;
     order_subTotal;
+    tax=10;
 
     constructor(){
-        getOrderDetails();
+        this.getOrderDetails();
     }
 
     update(k,element){
@@ -50,47 +51,108 @@ class Order {
         }
 
         if(this.valid){ this.postOrder();}
-        else{alert("Please fill empty fileds")}
+        else{alert("Please fill the empty fileds")}
     }
 
     postOrder(){
-        alert("ok");
+
+        let token = localStorage.getItem("token");
+        
+
+        if (token) {
+            
+            (async () => {
+                const rawResponse = await fetch('http://localhost:5000/api/orders/', {
+                  method: 'POST',
+                  headers: {
+                    "Content-Type": "application/json",
+                    'x-access-token': token
+                  },
+                  body: JSON.stringify({ 
+                    "shipping_info": this.user,
+                    "sub_total_price": this.subTotal,
+                    "shipping": 10,
+                    "total_price": this.total,
+                    "user_id": "6346ac23bb862e01fe4b6535",
+                    "order_date": "2022-01-01T00:00:00.000Z",
+                    "order_details": this.order_details
+                  })
+                });
+                const content = await rawResponse.json();
+
+                console.log(content);
+                alert("Order Placed");
+              })();
+
+        }
+        else{
+            alert("You need to login first");
+            window.location.href = "login.html";
+        }
+        
     }
 
     renderProducts(){
 
         let htm=``;
 
-            for(let product of d ){
-                htm+=`
-                <h6 class="mb-3">Products</h6>
+        let htm_products=``
+            for(let product of this.order_details ){
+                htm_products+=`
                 <div class="d-flex justify-content-between">
-                    <p>Product Name 1   x (2)</p>
-                    <p>$150</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p>Product Name 2   x (1)</p>
-                    <p>$150</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p>Product Name 3 x (3)</p>
-                    <p>$150</p>
-                </div>           
+                    <p> ${product.name}   x (${product.qty})</p>
+                    <p>$${product.price}</p>
+                </div>          
               `;
             }
-        document.getElementById("products").innerHTML=htm;
+
+            htm+=`
+            <div class="border-bottom">
+                <h6 class="mb-3">Products</h6>
+                ${htm_products}
+            </div>
+            <div class="border-bottom pt-3 pb-2">
+                <div class="d-flex justify-content-between mb-3">
+                        <h6>Subtotal</h6>
+                        <h6>$${this.subTotal}</h6>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h6 class="font-weight-medium">Tax</h6>
+                    <h6 class="font-weight-medium">$${this.subTotal*this.tax/100}</h6> 
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h6 class="font-weight-medium">Shipping</h6>
+                    <h6 class="font-weight-medium">$10</h6> 
+                </div>
+                
+            </div>
+            <div class="pt-2">
+                <div class="d-flex justify-content-between mt-2">
+                    <h5>Total</h5>
+                    <h5>$${this.total}</h5> 
+                </div>
+            </div>
+            `
+        document.getElementById("order-total").innerHTML=htm;
     }
 
     getOrderDetails(){
-       this.order_details = JSON.stringify( localStorage.getItem("order_details") );
-       this.subTotal = localStorage.getItem("subTotal");
+       this.order_details = JSON.parse( localStorage.getItem("order_details") );
+       this.subTotal = localStorage.getItem("order_subTotal");
+       this.total = Number(this.subTotal)+ 10 + Number(this.subTotal*this.tax/100);
+       this.renderProducts()
     }
 
+    updateTax(e,v){
+        this.tax= e.checked? v:this.tax;
+        this.total = Number(this.subTotal)+ 10 + Number(this.subTotal*this.tax/100);
+        this.renderProducts();
+    }
 }
 
 
 
-const order = new Order(cart);
+const order = new Order();
 
 window.order = order;
 

@@ -87,7 +87,7 @@ class cart_productStorage extends productStorage{
 
   order(){
 
-    let order_details = this.products_arr.map( (p)=> { return {_id:p._id, quantity:p.quantity, price:p.price-(p.price*p.discount)} } )
+    let order_details = this.products_arr.map( (p)=> { return { name:p.name ,product_id:p._id, qty:p.quantity, price:p.price-(p.price*p.discount)} } )
 
     localStorage.setItem("order_details", JSON.stringify(order_details));
 
