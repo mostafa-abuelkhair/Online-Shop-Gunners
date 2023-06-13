@@ -27,7 +27,7 @@ categories_section.render = (d) => {
     return b.productCount - a.productCount;
   });
   let htm = ``;
-  for (let product of d) {
+  for (let product of d.slice(0, 4)) {
     htm += `
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
           <a class="text-decoration-none" href="">
@@ -55,7 +55,7 @@ let featured_products = new getAndRender(
 
 featured_products.render = function (d) {
   let htm = ``;
-  for (let product of d) {
+  for (let product of d.slice(0, 8)) {
     htm += `
           <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
           <div class="product-item bg-light mb-4">
