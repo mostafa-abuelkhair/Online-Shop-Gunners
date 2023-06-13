@@ -141,7 +141,8 @@ class Order {
        this.order_details = JSON.parse( localStorage.getItem("order_details") );
        this.subTotal = localStorage.getItem("order_subTotal");
        this.total = Number(this.subTotal)+ 10 + Number(this.subTotal*this.tax/100);
-       this.renderProducts()
+       if (this.order_details.length > 0){this.renderProducts()}
+       
     }
 
     updateTax(e,v){
