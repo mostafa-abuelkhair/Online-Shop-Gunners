@@ -6,8 +6,6 @@ window.cart = cart;
 let fav = new productStorage("fav");
 window.fav = fav;
 
-
-
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
 const sortPopularity = document.getElementById("sort-Popularity");
@@ -59,7 +57,7 @@ class Shop {
 
     this.aaa = JSON.parse(products);
     this.get();
-    this.layout;
+    this.getToken();
   }
 
   get = async () => {
@@ -132,14 +130,6 @@ class Shop {
     });
   };
 
-  viewLayout = (k) => {
-    barStyle.addEventListener("click", () => {
-      k.className = "row";
-    });
-  };
-
-
-
   Stars = (rating) => {
     let r = "";
     for (let i = 1; i <= 5; i++) {
@@ -150,6 +140,27 @@ class Shop {
       `;
     }
     return r;
+  };
+
+  getToken = () => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      let name = localStorage.getItem("name");
+      document.getElementById("sign").innerHTML = `${name}`;
+
+      document.getElementById("signout-btn").innerHTML = `
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `;
+      document.getElementById("signin").setAttribute("href", "#");
+
+      let fav = new productStorage("fav");
+      window.fav = fav;
+    }
+  };
+
+  signout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+    // console.log("token")
   };
 }
 const shop = new Shop();
@@ -392,23 +403,4 @@ class Filter extends Shop {
 
 const filter = new Filter();
 
-let token = localStorage.getItem("token");
-if (token) {
-  let name = localStorage.getItem("name");
-  document.getElementById("sign").innerHTML = `${name}`;
-
-  document.getElementById("signout-btn").innerHTML = `
-    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `;
-  document.getElementById("signin").setAttribute("href", "#");
-
-
-  let fav = new productStorage("fav");
-  window.fav = fav;
-};
-
-const signout = function () {
-  localStorage.removeItem("token");
-  window.location.href = "index.html";
-  // console.log("token")
-};
-document.getElementById("signout-btn").addEventListener("click", signout);
+document.getElementById("signout-btn").addEventListener("click", shop.signout);
