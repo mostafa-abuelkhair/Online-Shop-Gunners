@@ -119,33 +119,33 @@ class Shop {
     document.getElementById("products").innerHTML = productHTML;
   };
 
-  addToCart = (product) => {
-    const cart = document.getElementById("btn-cart");
+  // addToCart = (product) => {
+  //   const cart = document.getElementById("btn-cart");
 
-    if (!this.cartItems.includes(product)) {
-      this.cartItems.push(product);
-      cart.classList.add("bbb");
-    } else if (this.cartItems.includes(product)) {
-      this.cartItems.splice(this.cartItems.indexOf(product), 1);
-      cart.classList.remove("bbb");
-    }
-    document.getElementById("shoped-count").innerHTML = this.cartItems.length;
-    console.log(this.cartItems);
-  };
+  //   if (!this.cartItems.includes(product)) {
+  //     this.cartItems.push(product);
+  //     cart.classList.add("bbb");
+  //   } else if (this.cartItems.includes(product)) {
+  //     this.cartItems.splice(this.cartItems.indexOf(product), 1);
+  //     cart.classList.remove("bbb");
+  //   }
+  //   document.getElementById("shoped-count").innerHTML = this.cartItems.length;
+  //   console.log(this.cartItems);
+  // };
 
-  addToLove = (product) => {
-    const love = document.getElementById("btn-love");
-    if (!this.lovedItems.includes(product)) {
-      this.lovedItems.push(product);
-      love.classList.add("bbb");
-    } else if (this.lovedItems.includes(product)) {
-      this.lovedItems.splice(this.lovedItems.indexOf(product), 1);
-      love.classList.remove("bbb");
-    }
-    document.getElementById("love-count").innerHTML = this.lovedItems.length;
+  // addToLove = (product) => {
+  //   const love = document.getElementById("btn-love");
+  //   if (!this.lovedItems.includes(product)) {
+  //     this.lovedItems.push(product);
+  //     love.classList.add("bbb");
+  //   } else if (this.lovedItems.includes(product)) {
+  //     this.lovedItems.splice(this.lovedItems.indexOf(product), 1);
+  //     love.classList.remove("bbb");
+  //   }
+  //   document.getElementById("love-count").innerHTML = this.lovedItems.length;
 
-    console.log(this.lovedItems);
-  };
+  //   console.log(this.lovedItems);
+  // };
 
   Stars = (rating) => {
     let r = "";
@@ -393,6 +393,25 @@ class Filter extends Shop {
       this.renderProducts(this.filteredProducts);
     }
   };
+  
 }
 
 const filter = new Filter();
+
+let token = localStorage.getItem("token");
+if(token){
+  let name = localStorage.getItem("name");
+  document.getElementById("sign").innerHTML = `${name}`;
+
+  document.getElementById("signout-btn").innerHTML =`
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
+};
+
+const signout = function() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+  // console.log("token")
+};
+document.getElementById("signout-btn").addEventListener("click", signout);
+
+

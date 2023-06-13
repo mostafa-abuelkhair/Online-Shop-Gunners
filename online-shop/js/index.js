@@ -128,7 +128,17 @@ window.fav = fav;
 
 let token = localStorage.getItem("token");
 if(token){
-let name = localStorage.getItem("name");
-document.getElementById("sign").innerHTML=name;
+  let name = localStorage.getItem("name");
+  document.getElementById("sign").innerHTML = `${name}`;
 
-}
+  document.getElementById("signout-btn").innerHTML =`
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
+};
+
+const signout = function() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+  // console.log("token")
+};
+document.getElementById("signout-btn").addEventListener("click", signout);
+
