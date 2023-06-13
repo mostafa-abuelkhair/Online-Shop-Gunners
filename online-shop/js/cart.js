@@ -1,11 +1,6 @@
 
 import {getAndRender,productStorage} from "./modules.js";
 
-let cart = new productStorage("cart");
-window.cart = cart;
-
-let fav = new productStorage("fav");
-window.fav = fav;
 
 class cart_productStorage extends productStorage{
 
@@ -104,7 +99,11 @@ class cart_productStorage extends productStorage{
 
 }
 
+let cart = new cart_productStorage("cart");
+window.cart = cart;
 
+let fav = new productStorage("fav");
+window.fav = fav;
 
 
 
