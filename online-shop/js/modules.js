@@ -49,9 +49,16 @@ class getAndRender {
     }
 
     add(p){
-      this.productSet.add(p);
-      this.store();
-      this.getCounter();
+      if (this.productSet.has(p)){
+        this.remove(p)
+      } else {
+        this.productSet.add(p);
+        this.store();
+        this.getCounter();
+        
+      };
+      
+
     }
   
     getCounter(){
