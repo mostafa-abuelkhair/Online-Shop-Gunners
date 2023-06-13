@@ -87,10 +87,13 @@ class Shop {
         product.name
       }">
               <div class="product-action action">
-                <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="cart.add('${
+                <a class="btn btn-outline-dark btn-square cart" id="btn-cart" onclick="cart.add('${
                   product._id
                 }')"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" id="btn-love" onclick="fav.add('${
+                <a class="btn btn-outline-dark btn-square heart" id="btn-love" onclick="fav.add('${
+                  product._id
+                }')   ;
+                shop.addToLove('${
                   product._id
                 }')"><i class="far fa-heart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
@@ -121,7 +124,6 @@ class Shop {
     let cards = document.querySelectorAll(".col-lg-4.col-md-6.col-sm-6.pb-1");
 
     barStyle.addEventListener("click", () => {
-      console.log("aaaa");
       layout.classList.remove("row");
       cards.forEach((card) => {
         card.className = "layout";
@@ -130,7 +132,23 @@ class Shop {
 
     blockStyle.addEventListener("click", () => {
       layout.classList.add("row");
-      card.className = "col-lg-4 col-md-6 col-sm-6 pb-1";
+      cards.forEach((card) => {
+        card.className = "col-lg-4 col-md-6 col-sm-6 pb-1";
+      });
+    });
+  };
+
+  addToLove = (id) => {
+    let loves = document.querySelectorAll(
+      ".btn.btn-outline-dark.btn-square.heart"
+    );
+    loves.forEach((love) => {
+      if (fav.productSet.has(id)) {
+        love.classList.remove("bbb");
+      } else {
+        love.classList.add("bbb");
+      }
+      console.log(id);
     });
   };
 
