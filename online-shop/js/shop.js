@@ -80,13 +80,13 @@ class Shop {
       const product = productsData[i];
       const ratingStars = this.Stars(product.rating);
       productHTML += `
-        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" >
           <div class="product-item bg-light mb-4">
-            <div class="product-img position-relative overflow-hidden">
+            <div class="product-img position-relative overflow-hidden" >
               <img class="img-fluid w-100" src="${product.image}" alt="${
         product.name
       }">
-              <div class="product-action">
+              <div class="product-action action">
                 <a class="btn btn-outline-dark btn-square" id="btn-cart" onclick="cart.add('${
                   product._id
                 }')"><i class="fa fa-shopping-cart"></i></a>
@@ -101,13 +101,13 @@ class Shop {
               <a class="h6 text-decoration-none text-truncate" href="">${
                 product.name
               }</a>
-              <div class="d-flex align-items-center justify-content-center mt-2">
+              <div class="d-flex align-items-center justify-content-center mt-2 text">
                 <h5>$${product.price}</h5>
                 <h6 class="text-muted ml-2"><del>$${
                   product.price + product.price * product.discount
                 }</del></h6>
               </div>
-              <div class="d-flex align-items-center justify-content-center mb-1">
+              <div class="d-flex align-items-center justify-content-center mb-1 stars">
                 ${ratingStars}
                 <small>${product.rating_count}</small>
               </div>
@@ -118,15 +118,19 @@ class Shop {
     }
     const layout = document.getElementById("products");
     layout.innerHTML = productHTML;
+    let cards = document.querySelectorAll(".col-lg-4.col-md-6.col-sm-6.pb-1");
 
     barStyle.addEventListener("click", () => {
       console.log("aaaa");
       layout.classList.remove("row");
-      layout.classList.add("layout");
+      cards.forEach((card) => {
+        card.className = "layout";
+      });
     });
 
     blockStyle.addEventListener("click", () => {
       layout.classList.add("row");
+      card.className = "col-lg-4 col-md-6 col-sm-6 pb-1";
     });
   };
 
