@@ -74,7 +74,7 @@ class Order {
                     "shipping": 10,
                     "total_price": this.total,
                     "user_id": "6346ac23bb862e01fe4b6535",
-                    "order_date": "2022-01-01T00:00:00.000Z",
+                    "order_date": new Date(),
                     "order_details": this.order_details
                   })
                 });
