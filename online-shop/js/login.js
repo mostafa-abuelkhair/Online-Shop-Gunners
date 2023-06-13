@@ -39,6 +39,7 @@ class Login {
         console.log(data);
         localStorage.setItem("token", data.token);
         localStorage.setItem("name", data.first_name+" "+data.last_name);
+        localStorage.setItem("user_id", data._id);
         window.location.href = "index.html";
       } else {
         alert("Invalid email or password"); // show an alert message
