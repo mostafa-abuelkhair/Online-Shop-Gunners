@@ -132,3 +132,26 @@ categories_menu.render= (d)=>{
 }
 
 categories_menu.get();
+
+let token = localStorage.getItem("token");
+if(token){
+  let name = localStorage.getItem("name");
+  document.getElementById("sign").innerHTML = `${name}`;
+
+  document.getElementById("signout-btn").innerHTML =`
+    <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
+    document.getElementById("signin").setAttribute("href", "#");
+
+  let cart = new productStorage("cart");
+  window.cart = cart;
+
+  let fav = new productStorage("fav");
+  window.fav = fav;
+};
+
+const signout = function() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+  // console.log("token")
+};
+document.getElementById("signout-btn").addEventListener("click", signout);
