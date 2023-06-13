@@ -133,6 +133,13 @@ if(token){
 
   document.getElementById("signout-btn").innerHTML =`
     <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
+    document.getElementById("signin").setAttribute("href", "#");
+
+  let cart = new productStorage("cart");
+  window.cart = cart;
+
+  let fav = new productStorage("fav");
+  window.fav = fav;
 };
 
 const signout = function() {
@@ -141,4 +148,5 @@ const signout = function() {
   // console.log("token")
 };
 document.getElementById("signout-btn").addEventListener("click", signout);
+
 
