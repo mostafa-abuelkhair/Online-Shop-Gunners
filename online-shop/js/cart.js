@@ -1,6 +1,12 @@
 
 import {getAndRender,productStorage} from "./modules.js";
 
+let cart = new productStorage("cart");
+window.cart = cart;
+
+let fav = new productStorage("fav");
+window.fav = fav;
+
 class cart_productStorage extends productStorage{
 
   products_arr=[];
@@ -100,10 +106,6 @@ class cart_productStorage extends productStorage{
 
 
 
-let cart = new cart_productStorage("cart");
-window.cart = cart;
-let fav = new productStorage("fav");
-window.fav = fav;
 
 
 let cart_products = new getAndRender("http://localhost:5000/api/products/");
@@ -142,11 +144,6 @@ if(token){
     <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `
     document.getElementById("signin").setAttribute("href", "#");
 
-  let cart = new productStorage("cart");
-  window.cart = cart;
-
-  let fav = new productStorage("fav");
-  window.fav = fav;
 };
 
 const signout = function() {

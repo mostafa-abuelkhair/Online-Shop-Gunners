@@ -1,5 +1,13 @@
 import { getAndRender, productStorage } from "./modules.js";
 
+let cart = new productStorage("cart");
+window.cart = cart;
+
+let fav = new productStorage("fav");
+window.fav = fav;
+
+
+
 const sortPrice = document.getElementById("sort-price");
 const sortRating = document.getElementById("sort-rating");
 const sortPopularity = document.getElementById("sort-Popularity");
@@ -120,7 +128,6 @@ class Shop {
     });
 
     blockStyle.addEventListener("click", () => {
-      console.log("bbbbb");
       layout.classList.add("row");
     });
   };
@@ -131,33 +138,7 @@ class Shop {
     });
   };
 
-  // addToCart = (product) => {
-  //   const cart = document.getElementById("btn-cart");
 
-  //   if (!this.cartItems.includes(product)) {
-  //     this.cartItems.push(product);
-  //     cart.classList.add("bbb");
-  //   } else if (this.cartItems.includes(product)) {
-  //     this.cartItems.splice(this.cartItems.indexOf(product), 1);
-  //     cart.classList.remove("bbb");
-  //   }
-  //   document.getElementById("shoped-count").innerHTML = this.cartItems.length;
-  //   console.log(this.cartItems);
-  // };
-
-  // addToLove = (product) => {
-  //   const love = document.getElementById("btn-love");
-  //   if (!this.lovedItems.includes(product)) {
-  //     this.lovedItems.push(product);
-  //     love.classList.add("bbb");
-  //   } else if (this.lovedItems.includes(product)) {
-  //     this.lovedItems.splice(this.lovedItems.indexOf(product), 1);
-  //     love.classList.remove("bbb");
-  //   }
-  //   document.getElementById("love-count").innerHTML = this.lovedItems.length;
-
-  //   console.log(this.lovedItems);
-  // };
 
   Stars = (rating) => {
     let r = "";
@@ -420,12 +401,10 @@ if (token) {
     <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `;
   document.getElementById("signin").setAttribute("href", "#");
 
-  let cart = new productStorage("cart");
-  window.cart = cart;
 
   let fav = new productStorage("fav");
   window.fav = fav;
-}
+};
 
 const signout = function () {
   localStorage.removeItem("token");
