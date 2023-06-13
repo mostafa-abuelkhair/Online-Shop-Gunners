@@ -148,8 +148,38 @@ class Order {
         this.total = Number(this.subTotal)+ 10 + Number(this.subTotal*this.tax/100);
         this.renderProducts();
     }
+
+    
 }
 
+class Sign {
+    constructor() {
+      this.getToken();
+    }
+  
+    getToken() {
+      let token = localStorage.getItem("token");
+      if (token) {
+        let name = localStorage.getItem("name");
+        document.getElementById("sign").innerHTML = `${name}`;
+  
+        document.getElementById("signout-btn").innerHTML = `
+      <i class="fas fa-arrow-right text-primary " style="font-size: 2rem;"></i> `;
+        document.getElementById("signin").setAttribute("href", "#");
+      }
+    }
+  
+    signout = () => {
+      localStorage.removeItem("token");
+      window.location.href = "index.html";
+      // console.log("token")
+    };
+  }
+  
+  const sign = new Sign();
+  
+  document.getElementById("signout-btn").addEventListener("click", sign.signout);
+  
 
 
 const order = new Order();
