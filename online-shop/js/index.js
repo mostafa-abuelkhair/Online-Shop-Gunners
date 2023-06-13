@@ -20,7 +20,6 @@ categories_menu.get();
 let categories_section = new getAndRender(categories_menu.url);
 
 categories_section.render=(d)=>{
-  console.log(d);
   d.sort(function(a, b){return b.productCount - a.productCount});
   let htm=``;
       for(let product of d ){
