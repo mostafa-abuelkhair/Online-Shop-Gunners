@@ -57,6 +57,7 @@ class Order {
     postOrder(){
 
         let token = localStorage.getItem("token");
+        let user_id = localStorage.getItem("user_id");
         
 
         if (token) {
@@ -73,7 +74,7 @@ class Order {
                     "sub_total_price": this.subTotal,
                     "shipping": 10,
                     "total_price": this.total,
-                    "user_id": "6346ac23bb862e01fe4b6535",
+                    "user_id": user_id,
                     "order_date": new Date(),
                     "order_details": this.order_details
                   })
@@ -140,7 +141,8 @@ class Order {
        this.order_details = JSON.parse( localStorage.getItem("order_details") );
        this.subTotal = localStorage.getItem("order_subTotal");
        this.total = Number(this.subTotal)+ 10 + Number(this.subTotal*this.tax/100);
-       this.renderProducts()
+       if (this.order_details.length > 0){this.renderProducts()}
+       
     }
 
     updateTax(e,v){
